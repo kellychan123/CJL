@@ -1,0 +1,32 @@
+---
+title: "Fig3b"
+date: '2024-11-15'
+output: html_document
+---
+
+
+## R Markdown
+
+library(ComplexHeatmap)
+library(grid)
+library(pheatmap)
+library(RColorBrewer)
+
+factor <- read.csv("metabolism_factor.csv", header = TRUE, row.names = 1)
+factor <- log10(factor)
+factor <- as.matrix(factor)
+groupcolor <- c("#1F79B4", "#B2DF8A", "#F48FB1")
+names(groupcolor) <- c("Control", "DSS", "DSS+BH")
+ann_colors <- list(group = groupcolor)
+annotation_col <- data.frame(group = c(rep("Control", 4), rep("DSS", 4), rep("DSS+BH", 4)))
+p3 <- pheatmap(factor, 
+               scale = "row", 
+               col = colorRampPalette(rev(brewer.pal(n = 11, name = "RdYlBu")))(20), 
+               annotation_col = annotation_col, 
+               annotation_names_col = FALSE, 
+               cluster_cols = FALSE, 
+               cluster_rows = FALSE, 
+               annotation_colors = ann_colors)
+p3
+
+
